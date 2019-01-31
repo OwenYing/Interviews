@@ -31,6 +31,17 @@ Use case requirement:
         7. Cash payment
 
 Class Diagram:
+    1. ParkingLot
+    2. ParkingFloor
+    3. ParkingSpot
+    4. Account
+    5. Ticket
+    6. Vehicle
+    7. EntrancePanel / ExitPanel
+    8. Payment
+    9. ParkingDisplayBoard
+    10. ParkingAttendantPortal
+    11. CustomerInfoPortal
 
 
  */
