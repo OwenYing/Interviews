@@ -30,5 +30,7 @@ Use case requirement:
         6. Credit card payment
         7. Cash payment
 
+Class Diagram:
+
 
  */
