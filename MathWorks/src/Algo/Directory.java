@@ -18,6 +18,26 @@ public class Directory {
 6. leetcode 3: Longest Substring Without Repeating Characters
 7. leetcode 103: Binary Tree Zigzag Level Order Traversal (+2)
 8. leetcode 199: Binary Tree Right Side View
-
-
+9. leetcode 617: Merge Two Binary Trees
+10. Given a func(arr,n) which can reverse arr[0-n], use func(arr,n) to sort an array
+    |--backwards, find the max, f(arr, maxIndex)
+    |--f(arr, unsortedEnd)
+11. leetcode 232: Implement Queue using Stacks
+12. leetcode 503: Next greater element II
+13. leetcode 206: Reverse Linked List
+14. Given an array, find the closest larger number
+    |--Forward: next greater element
+    |--Backward: next greater element
+    |--Compare to get closest
+15. leetcode 225: Implement Stack using Queues
  */
+//10.
+public int[] sortUsingFunc(int[] arr) {
+    for(int i = arr.length - 1; i >= 0; i--) {
+        int max = 0;
+        for(int j = i; j >= 0; j--)
+            max = arr[max] < arr[j] ? j : max;
+        f(arr, max);
+        f(arr, i);
+    }
+}
