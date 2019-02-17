@@ -32,6 +32,10 @@ User Scenario:
         --> mark table as dirty
         --> clean the table
         --> waiting for another group
+    3. orders will be offer into a queue
+        --> chief cook the order queue head
+        --> chief finished and offer it to finished queue
+        --> chief notify the waiter to take it
 
 Object Design:
     |--Waiting Queue <Group>
