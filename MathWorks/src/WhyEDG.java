@@ -55,4 +55,8 @@ Teams:
         |--Design tools and functionality to enable the worldwide development organization to focus on creating great software.
         |--Specialize in domains such as compilers, web development, databases, globalization, and more.
 
+ Onsite:
+    Feb 22nd
+    Name Airport Tursday evening
+
  */
