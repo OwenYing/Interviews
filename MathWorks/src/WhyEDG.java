@@ -13,6 +13,9 @@ Why EDG?
         with amazing people makes you improve faster.
     7. I can keep learning, add skills to my skill set and make myself more
         competitive.
+    8. Mathworks have really attractive benefits, with which working for Mathworks doesn't need to worry about other things,
+        can put full heart into work.
+    9.
 
 Why Fit?
     1. My field now is Web Application development, which uses OOD a lot.
