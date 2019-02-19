@@ -6,7 +6,7 @@ Why EDG?
     2. I can interact with real users to know their needs, along the way I can practice communicating with people
     3. Solve real world problem
     4. Learn lots of new knowledge and try every direction before jumping
-        into a specific team.
+        into a specific team. I have chances to try projects in different fields.
     5. I will learn to use Matlab and Simulink taught by experts, and in the
         future I can use Matlab to conduct amazing researches
     6. I can work with really smart people from all around the world, working
@@ -15,7 +15,15 @@ Why EDG?
         competitive.
     8. Mathworks have really attractive benefits, with which working for Mathworks doesn't need to worry about other things,
         can put full heart into work.
-    9.
+    9. Matlab is one of the best research and design tools used by millions researchers, it is super cool to participate
+        into this and contribute to researches.
+    10. I can learn developing software in a more systematic way, from requirement to publish.
+    11. I can learn from the training programs, since Mathworks provides many training sessions, it shows the caring about
+        company's improvement and its employee's improvement, which is valuable.
+    12. The Big Picture Orientation attracts me a lot, with this you can clearly understand how the company works to
+        how to master the detailed techs, which can be super helpful for new grads to transfer our knowledge from school
+        to industry.
+
 
 Why Fit?
     1. My field now is Web Application development, which uses OOD a lot.
