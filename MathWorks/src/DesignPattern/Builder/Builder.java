@@ -13,6 +13,7 @@ Builder:
     3. Or when there are a lot of steps involved in creation of an object.
     4. Support chained call, JQuery has lots of it
     5. you don't need to worry about the parameters' order
+    6. Use static inner class to group it or bound it with the target Entity Class
 
  */
 
