@@ -63,3 +63,47 @@ public class FishingBoatAdapter implements RowingBoat { //2. One side of Adapter
 // How to use?
 Captain captain = new Captain(new FishingBoatAdapter());   //5. Plug the Adapter into the class
 captain.row();
+
+
+
+
+// Another example
+public interface TwoPinSocket {
+    public void chargeTwo();
+}
+public interface ThreePinSocket {
+    public void safe();
+    public void chargeThree();
+}
+public class TwoAdapter implements TwoPinSocket {   //1. To help three plug into two. (help my Mac's three plug into the wall's two)
+    ThreePinSocket three;
+    public TwoAdapter(ThreePinSocket plugMacIn) {
+        three = plugMacIn;
+    }
+    @Override
+    public void chargeTwo() {              //2. Connect from three to two inside the adapter
+        three.safe();
+        three.chargeThree();
+    }
+}
+
+class MyMac implements ThreePinSocket {
+    public void safe(){
+        System.out.println("Mac is safe to charge");
+    }
+    public void chargeThree() {
+        System.out.println("Mac is charging");
+    }
+}
+class Wall implements TwoPinSocket {
+    TwoPinSocket socket;
+    public Wall(TwoPinSocket plugin) {
+        socket = plugin;
+    }
+    public void chargeTwo() {
+        socket.chargeTwo();
+    }
+}
+
+TwoPinSocket threeToTwoAdapter = new TwoAdapter(new MyMac());  // plug my mac into the adapter:    MyMac --> Adapter
+TwoPinSocket wall = new Wall(threeToTwoAdapter);               // plug the adapter into wall:      Adapter --> Wall
