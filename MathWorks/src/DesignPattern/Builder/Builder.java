@@ -12,6 +12,7 @@ Builder:
     2. Useful when there could be several flavors of an object.
     3. Or when there are a lot of steps involved in creation of an object.
     4. Support chained call, JQuery has lots of it
+    5. you don't need to worry about the parameters' order
 
  */
 
@@ -92,3 +93,4 @@ public final class Hero {
 
 // How to use?
 Hero mage = new Hero.Builder(Profession.MAGE, "Riobard").withHairColor(HairColor.BLACK).withWeapon(Weapon.DAGGER).build();
+//you don't need to worry about the parameters' order
