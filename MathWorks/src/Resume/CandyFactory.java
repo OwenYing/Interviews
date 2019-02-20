@@ -34,6 +34,21 @@ OOD:
         |--performance JSON
         |--student primary key: foreign key
 
+
+Introduction:
+    1. Use MVC design model --> EntityBeans(model) + HTML(View) + beanController(controller)
+    2. Game: front end focused --> compute and animate by frontend, release backend resources, which promise fast game play
+    3. Design patterns used: Facade, could used Builder pattern to construct object with too many parameters
+    4. Reuse of student username, if the previous is deleted
+    5. Students are assigned with different animal pictures to make it fun
+    6. Use Bit Manipulation to store the achievements medals
+    7. Problem: if you use seperate shiftlog following each level, it doesn't reuse the code.
+        But if you use one shiftlog with parameters, the parameters will be too complicated since not every level are the same. -- here could use Builder pattern
+    8. SQL + JSON : strict with structured data, flexible with unstructured performance data
+    9. Optimization
+    10. Export data as PDF
+
+
 Front-end: html + css + JQuery
     I. Jquery:
         1. Event based
