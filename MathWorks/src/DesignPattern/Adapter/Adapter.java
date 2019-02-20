@@ -76,12 +76,12 @@ public interface ThreePinSocket {
     public void chargeThree();
 }
 public class TwoAdapter implements TwoPinSocket {   //1. To help three plug into two. (help my Mac's three plug into the wall's two)
-    ThreePinSocket three;
+    ThreePinSocket three;                           //2. A three inside the adapter
     public TwoAdapter(ThreePinSocket plugMacIn) {
         three = plugMacIn;
     }
     @Override
-    public void chargeTwo() {              //2. Connect from three to two inside the adapter
+    public void chargeTwo() {                      //3. Connect from three to two inside the adapter
         three.safe();
         three.chargeThree();
     }
