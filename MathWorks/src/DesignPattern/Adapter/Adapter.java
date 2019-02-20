@@ -10,7 +10,7 @@ resources:    https://java-design-patterns.com/patterns/adapter/
 Adapter:
     1. Also known as Wrapper
     2. Adapter pattern lets you wrap an otherwise incompatible object in an adapter to make it compatible with another class.
-
+    3. Adapter inorder to plug A --> B , Adapter implements B, Adapter has A's instance, Called B's Adapter
 
  */
 
