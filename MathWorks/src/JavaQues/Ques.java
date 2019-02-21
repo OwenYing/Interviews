@@ -162,6 +162,12 @@ class Box<T> {
 
 
 //===================== Multithreading Example ========================
+//a. If extends from Thread --> start()
+//   If implements Runnable --> new Thread(runnable).start()
+//b. Difference
+//      extends Threads --> only allow one extend, so only if the class main
+//                          functionality related to thread, use this
+//      implement Runnable --> since multi-implements, this adds more flexibility.
 //1. extends Thread
 class MultithreadingDemo extends Thread {
     public void run() {
