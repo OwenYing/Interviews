@@ -56,7 +56,12 @@ public class Ques {
     |-- A type of method to operate on objects of various type while providing compiling time type safety that allows programmers to catch invalid types at compile time.
 12. Difference between stack memory and heap memory?
     |-- Stack is used for static memory allocation and Heap is used for dynamic memory allocation.
+    |-- Stack Compile time; Heap Run time
+    |-- Stack fast; Heap slow
+    |-- For multithreads, each thread has own Stack, but shared Heap
+    |-- Stack (value, method, with scope) ; Heap (pointers, reference, without scope)
 13. Multi-threading
+14. OOP principles: Encapsulation, inheritance, polymorphism
  */
 
 
