@@ -16,6 +16,7 @@ public class Ques {
         |-- When an object is no longer used, the garbage collector reclaims the underlying memory and reuses it for future object allocation.
             This means there is no explicit deletion and no memory is given back to the operating system.
     |-- Usually Yes, but one scenario: the programmer forgot to de-reference the object.
+    |-- GC deals with Heap memory, follow isolated islands principle
 3. Synchronized
     class Sender
     {
