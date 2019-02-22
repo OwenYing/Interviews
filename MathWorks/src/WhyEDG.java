@@ -26,16 +26,17 @@ Why EDG?
 
     Summary:
         1. school --> industry
-        2. real users, communicate skill
-        3. solve real world problem
-        4. try different direction
+        2. solve real world problem
+        3. real users, communicate skill
+        4. help researchers
         5. learn Matlab + Simulink, build my skill set
         6. work with smart people
         7. benefits
-        8. help researchers
+        8. try different direction
         9. learn developing in a systematic way
         10. Continue learning, company and employee's improvement
         11. Big Picture Orientation --> how the company works
+        12. Individual Office
 
 
 Why Fit?
