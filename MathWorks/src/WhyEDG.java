@@ -24,6 +24,19 @@ Why EDG?
         how to master the detailed techs, which can be super helpful for new grads to transfer our knowledge from school
         to industry.
 
+    Summary:
+        1. school --> industry
+        2. real users, communicate skill
+        3. solve real world problem
+        4. try different direction
+        5. learn Matlab + Simulink, build my skill set
+        6. work with smart people
+        7. benefits
+        8. help researchers
+        9. learn developing in a systematic way
+        10. Continue learning, company and employee's improvement
+        11. Big Picture Orientation --> how the company works
+
 
 Why Fit?
     1. My field now is Web Application development, which uses OOD a lot.
@@ -37,6 +50,13 @@ Why Fit?
         I'd love to help them with their real world problems.
     5. And I'm eager to learn new things, the SlidesController project on my resume,
         I used ten day developed it with no Android knowledge at the beginning.
+
+    Summary:
+        1. Cloud Software --> OOD
+        2. Full stack --> front-end & back-end
+        3. Machine Learning --> fit the company
+        4. Love communication
+        5. Fast and eager learner --> story: slides controller + how to get TA position
 
 
 Teams:
