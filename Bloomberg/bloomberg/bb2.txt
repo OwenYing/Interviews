@@ -1,0 +1,308 @@
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=28651&extra=page%3D2%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3046%5D%5Bvalue%5D%3D14%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=78089&extra=page%3D2%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3046%5D%5Bvalue%5D%3D14%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=78375&extra=page%3D4%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3046%5D%5Bvalue%5D%3D14%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+
+【==================behavior======================】
+"Bloomberg L.P. provides financial software tools such as an analytics and equity trading platform, data services and news to financial companies and organizations through the Bloomberg terminal (via its Bloomberg Professional Service), its core money-generating product."
+哪里听说的Bloomberg 毕业之后的打算。
+为什么要bloomberg，跟其他IT公司比有什么不同
+为啥学EE找工作要找software
+然后就是hr 问expectation什么的
+ where do you see yourself in 5 years
+ee to cs 对coding有信心？
+简历方面，问了project challenge的地方，然后有没有遇到过不好的队友，为什么做这个，有什么优点，比不这样好在哪。不这么做，哪里有问题。。。都一个意思问了好久。。未来几年有啥规划， 你觉得C++和java你更喜欢哪个啊？这问题是HR问的！我想啊！我当然喜欢java多简单那！可是你家用C++，我就说了说C++哪里好。。。介绍自己project,
+第四轮的面试官跟我说，bloomberg的engineer不仅是工程师，也是business man，需要能和陌生人很好地交流，工作自由度很大，hirarchy很弱，有时候要去找不认识的同事帮忙，要说服别人能帮你做事。所以感觉BLOOMBERG对技术的要求不是特别高，相反对交流能力要求比其他IT公司高一些，所以面试的时候表现活泼一些，不那么nerd的话感觉会加分很多。
+【==================design==================】
+【********常见题********】
+【1】马拉松
+一个track上有很多runners（runner已经给的属性有id和name），还有很多check points(已给属性为distance：距离终点的距离，和id)，check points可以检测到哪个runner跑过它. 
+[需要往这两个对象里加什么样的properties]
+1. 实时更新top k的选手
+2. 用这个系统生成一个dashboard显示runner现在的名次/实时更新排名表。
+Sol:
+#####问题就是如果有40个人，都在两个cp之间，而且在冲刺的话，他们的顺序会发生变化。在进入下一个cp之前我没办法知道到底谁在前谁在后#####
+basic: 每个cp记录跑过运动员个数，若该个数 <= 10则返回当前运动员runnerIdx & 该cp的distance & 个数
+sol1. 对于topk, 可以用hashMap & maxheap构成indexMaxHeap，存储（runnerId, dist）接受到条目后，或decrease_key，或删除最大(top)&插入(仅在严格<时操作) {类似股票} 0(nlogk) n : k*num of check points
+sol2. 每个CP维护一个list，将当前pass的人从之前删除，添加至当前list，cp记录当前pass了多少人，用以对runner设置名次，若名次在前10，通知leadboard更新离终点最近cp，对每个cp取list, 直到第一个当前设定超过10的cp
+sol3. 相当于LRU, 维护一个list, 每个cp存当前刚pass过的runner所对应位置，每个cp检测到runner后，将该runner删除，并加入改cp指向的位置下一个 ，更新cp指向位置（可以将list改为size为k, 仅记录号小于k的cp参与，添加删除同前）
+【2】电话薄phone book (一个人名对应多个电话号码)
+1. output the phone book by alphabetic order
+2.输入人名：0）auto-complete, 1）查找对应电话号码，2）返回和这个人是neighbor的另外4个人的phone number(alphabetic order)
+3.输入电话号码找名字
+4.如果不考虑memory，在disk上做，怎么设计这个数据结构[电话本在disk上应该就是简单的database吧，一列是人名，另一列是电话，因为一个人可以有多个电话，所以同一个人名可以有多行。然后primary key 应该是人名和电话的组合]
+Sol:
+数据结构：Tire or treeMap (or hashMap ——不涉及alphabetic order的情况下)
+——对于Trie返回neighbor:
+	查找下一个：直接在当前节点的children里找下一个，如果没有则返回parent节点，从下一个child开始遍历。
+	查找上一个：返回parent节点，从上一个child开始逆序遍历。
+	*每个节点可以存它所有可能到达的节点array，可以直接输出下一个（array的内容or parent array的内容来加速： 但array只在顺序添加人名的情况下为sort的）
+——对于treemap完成auto-compelete, 找到第一个大于等于输入的节点，输出从当前节点开始，保证最后一个字母不变情况下的正序遍历的结果。
+【3】公司-股票-价格
+1.1)一个系统假设不停接收交易数据（公司名字，交易数量），让写一个程序返回当前交易量最大的十个公司. (接着问如果要随时调取最大交易量的N只股票怎么做，我说可以先数据分析，根据normal distribution 搞一个high confidence 的group, 再用同样的原理只考虑统计结果给出的股票，烙印貌似挺满意没有纠结。)
+2)系统会不断推送<股票名，当前价格>给你，要求你实现三个接口：currentPrice（String name）返回该股票的当前价格，currentProfit（String name）返回该股票目前的利润（其实就是当前价格减去起始价格），top20返回当前利润最大的20个股票/股票价格变动次数最多的10个公司/当前历史最高股价排名前k高的公司和他的最高股价。
+sol:
+——对于key的大小只增不减or只减不增的top k, 可以用hashMap & minheap构成indexMinHeap of size k，存储（name, price/volume）接受到条目后，或increase_key，或删除最小(top)&插入 0(nlogk)
+——若key有增有减or k不定，对所有股票建立indexHeap, 每次弹出前k
+2. 老印设计一个class for stock name/price
+function:. 1. insert 2. update  3. delete 4. sortedByPrice 5. sortedByName
+我:dictionary , sort 的时候上array, 写了比较完整的code; 老印: space太大 我: tree?. 老印: 继续 compare time complexity 我:(写下来完整time complexity 老印: 如果我加date 怎么写 我要排序打印 要考虑你之前写过的function 的 time complexity  比如 stock price date.  我:在name tree里边再加个array 再sort, 最后一问想了很久 主要是要考虑当前 要用tree的状态（price作为node的field如何sort?）
+3. 所有东西你都自己定义，一个让用户可以更新每个公司最新股价，一个可以把所有最新股价打印出来。hashtable就能解。
+写followup，如果有很多很多entry进来，可是系统内存有限，你觉得你的代码哪里可能出错。 (内存不足？)
+再followup问如果我想知道每个公司最近30个股价的均值和方差，你考虑加点什么，queue
+再followup如果我想公司顺序按alphabetical order现实你咋办，我说那用trie？未置可否。
+4. 统计
+1）stock price coming, 有一个window的size是n,    O（1）更新window里数据的average,就是旧的average*totalnumber再减去dequeue的加上新进来的再除以totalnumber,这题要写class,我就写了个window的class,constructor,dequeue,enqueue啥的
+2） input是（公司名，股票数量）， 让算平均数， 再记录如果有些股票update了，怎么update平均数(差值/公司数+之前均值)
+【*********OOD*********】
+1.如果跟一个不懂computer science和programming的人讲明白object oriented中的object是什么？  2.design讲几个software architectural pattern，具体解释一下，举个实际例子说明一个pattern，楼主比较弱，就讲了一个MVC和server client，其他的没讲。
+3.设计class，card和deck，shuffle card，设计方法.
+4.设计一个百货公司，里面有不同dept的employee，还有customer，还有商品.
+5.parking lot
+6. 音乐播放器的随机播放。（问的很细，包括函数是怎么生成随机数的，怎么用这个随机数实现具体随机播放功能，然后怎么避免重复播放，还有一堆关于设计的东西。）
+设计手机上的音乐播放器，面试官一步步的说需要的功能，例如shuffle，搜索等等，主要讨论了用什么数据结构，最后讨论Database的table怎么设计。
+7. 设计一个画板。我个人不太认可这类题的是，就算现实中的项目，我问你requirement你也该告诉我，问清楚需求才能做嘛，结果问什么美国大哥都说随你，我就懵了，你妹啊，我要知道你期待什么啊。感觉答的一般，给出了解法，但感觉并不出彩，空间复杂度有些高。要求就是没要求。问什么都是随你，我就想看你怎么设计。大概就是画板，有画刷，不同的brush画不同的东西，比如圆，三角，方框。然后还有要支持undo功能。而且支持点一下和拖着画。
+如何实现windows paint的画方框功能
+8.( strategy pattern)一个test car的系统，比如carA要test turn left, turn right, start, stop等等， carB要test speedUp, slowDown, turn angle等等，还会有carC，carD等等，要test可能不同，也可能有相同的部分。写一个class不管是哪个car都可以通过run这一个class来test. 不会啊！！。【设计题把测试方法抽象出接口，然后测试方法都继承它。车类持有多个测试方法类型的成员变量。这样应该可以.。 interface carTest{         void test(); } class turnLeft implements carTest{         public void test(){System.out.println("Turn Left");} } class Break implements carTest{         public void test(){System.out.println("Break");}
+}
+class CarA {         private carTest turnL = new turnLeft();         private carTest Break = new Break();         public void tests(){                 turnL.test();
+                Break.test();         } } 这样可扩展性更强, 当然抽象出Car类更好, 测试项目多了可以用ArrayList存。
+是比较基本的多态。可以想象一下base class animal; derived class tiger, money; virtual function eat()的设计
+9.有很多股票信息更新到系统里，同时需要把这些信息发给subscriber，问这个系统怎么设计(observer pattern)
+【**********功能性design*************】
+1. 如何实现一个内存管理。 例如： a = new(100); //分配100MB内存.  b = new(200); delete a; 
+c = new(500);
+2.信息发送的load balancing。假设给你一个send()函数，可以发送一个message。要求你写个函数balancedSend(int msg, int cd)，可以在cd的秒数内最多发送msg条信息（比如balancedSend(10, 60)就是60秒内最多10秒），并且尽可能降低每一条message的延迟。 就是个基本的写函数问题，跑send()之前计时，发完msg个信息后检查消耗时间，如果超过cd就直接下一轮，如果没超过就sleep（cd - 消耗时间）。
+3. 第一个问题是 database 和 本地通信比较慢，如何优化。我提出用cache解决
+4. 用户会发送buy和sell的指令给后台的服务器组，sell之前必须要有buy。但是服务器组内部跑指令可能会把指令顺序搞乱，如何保证能够正确执行原始的指令顺序。 这个其实我和他们聊了一阵子也不太明白是什么概念，毕竟我的想法是如果用户恶意输入无效指令我们也要去试图恢复吗（比如sbsbsbsb)。然后就是如何知道用户的原始指令顺序是什么，然后就是如何把信息递给服务器组（本身是个大黑盒，你不知道会如何）。总之聊了一下换题了，感觉不是很get到考点。
+5.问了两个超大字符串的处理。最后连上follow up，还问了一些cpu运行速度计算（什么鬼），multithread处理。主要题目大概是两个超大字符串如何用最小空间+最短时间消除他们互相含有的字符。然后给出CPU计算时间。（分布式）
+6. 大概就是frond end会发大量query到back end，怎么设计back end的system，可以handle海量的query，一个server是肯定要挂的。。。感觉要弄成distributed.
+7. 设计一个traffic light system，要求是从南到北的十个红绿灯一开始都是红灯，如果有辆车从最南端开到北端，会触发第一个灯绿，并且接下来的灯能逐渐变绿让车能一直开到北边不需要停。 这题我回答的是写一个light class，用一个state表示红绿黄，然后写一个function，利用thread.sleep控制变化时间，同时在主函数里面不断唤醒下一个红绿灯。
+8.scaliability
+然后给了个图，说有个queue，queue里有股票的信息，怎么把股票信息存到database里去。。。我说那就存进去啊。。。完全不懂要问什么。。。问怎么存？我说按每只股票的信息存到对应的table里面。他说好使，但是一会你同事发来贺电，queue爆了存不下了，为什么？我说那存不下了，说明queue太小，把queue增大，他说好，两小时后你同事用发来贺电，又爆了。我说那说明enqueue的速度远远大于dequeue的速度啊，这样再大的queue也得爆，他说是啊，怎么办？支支吾吾了一会说，dequeue端多线程提高dequeue速度。他说好使，但是这个的股票必须persevrve order，怎么办？每支股对应一个特定的线程。他说好使，但是两天后同事贺电又爆了，到这时我直接崩溃了，恨不得掐死同事。。。不知道怎么办了，他说你知道问题在哪吗？老实回答不知道。他说bottleneck有很多可能，有可能是你dequeue不够快，但是也有可能是database写入不够快，你上来不应该理所当然的认为加快dequeue速度就能解决. 问题，应该先找出问题在哪！然后问写的太慢怎么办，我说有的database专门有写优化的，可以试试用这种database，他说是，但是你同事很不爽他不愿意换啊！丧心病狂的同事。。。怎么办？想不出，他说你之前用过同样的pattern了啊，这时候时间快到了，他也不等我了，直接说每支股票分配一个database进行partation，哦，我说这是要sharding啊，cluster 前面搞个key value查看哪个股票存哪个database。
+【*******综合design*******】
+1. 很理论的搜索系统的设计
+2. 设计一个系统可以一直读 twetter feeds 然后显示在版面上 印度人一直抓着要 real-time 和有很多clients
+3. 关于disjoint set。设计一个系统可以匹配互相能成为朋友的人，然后把能成为朋友的人组成group。
+4. 设计一个给investment banker用的目标公司新闻推送系统。前端有注册，用户选择公司列表，实时更新相关公司新闻的呈现。中间有连接的维持方式（就是存一大堆sockets）和网路负载的优化。后端有新闻推送的收集，大量用户为目标的及时推送，服务器稳定性，用户信息的验证和推送的过滤机制。总之主要技术就是分布式，消息队列，Websocket，缓存服务器，备用服务器，也可以进一步用一些其他技术来优化比如storm和kafka。总之见仁见智，多主动和他交流，能想到的酷炫技术词都可以甩出来。最后答得他挺满意的，说我的设计基本就是BB在用的设计，虽然我都搞不清我的设计到底是啥了囧。
+
+
+【*********c++**********】
+http://www.cplusplus.com/doc/tutorial/
+http://www.cs.ucr.edu/~lyan/c++interviewquestions.pdf
+【1】 c, c++, java, why efficiencies c > c++ > java and differences, why c++ is better than c
+/***Efficiency:
+	1.java uses java virtual machine (jvm) to run the code & garbage collection
+	2. Some C++ constructs impose performance penalties; e.g., Virtual methods generally require indirection through a jump table for every call. Likewise, idiomatic C++ code can produce larger object code than equivalent idiomatic C code, which can make the C++ version not fit in L1/L2 cache where the C code would. Fitting in L1/L2 cache generally leads to huge performance gains since RAM is much slower than on-die storage. 	3.On the other hand, C++ Templates allow arbitrary compile-time precomputation, which can vastly improve run-time performance. In the limit, for example, you could write a complete solution to, say, the Eight queens puzzle entirely using templates, meaning that your resulting executable only uses as much run-time as is required to print the answer (which the compiler actually computed ahead of time while compiling your program).
+/***c++ vs. c
+	why c++ better : OOP
+	Non-OO features that C++ has that C does not:
+Templates
+Function overloading
+References
+Namespaces
+You can use structs and enums without writing struct or enum before every declaration or using typedefs.
+Even if you don't define your own classes, using C++'s string and container classes is still often more convenient and safe to work with than c-style strings and arrays.
+Type safety (even though some would call it weak)
+Exceptions
+Variable declarations in conditionals, C99 only has it in for
+/***c++ vs. java
+	1. java runs in a virtual machine, while c++ runs as native executable machine code.
+	2.c++: Pointers, references, and pass-by-value are supported for all types (primitive or user-defined). java: All types (primitive types and reference types) are always passed by value
+	3.c++: Memory management can be done manually through new / delete, automatically by scope, or by smart pointers. java: garbage collection.
+	4.c++: Operator overloading for most operators. java: not allowed
+	5.c++: Single and Multiple inheritance of classes, including virtual inheritance. java: Single inheritance of classes. Supports multiple inheritance via the Interfacesconstruct, which is equivalent to a C++ class composed of abstract methods
+【2】How do you call C functions from C++, C++ Function in C (Mix C and C++)? extern "C" void foo( ); It will turn o_ "name mangling" for func so that one can link to code compiled by a C compiler. http://www.thegeekstuff.com/2013/01/mix-c-and-cpp/ See detailed answer  【3】memory Allocation/Deallocation
+3_1) What is the difference between new/delete and malloc/free("operator new" works like the latter)
+Malloc/free do not know about constructors and destructors. New and delete create and destroy objects, while malloc and free allocate and deallocate memory. Malloc returns a pointer to void (void *), and requires a special "typecasting" when it allocates memory for, which isn't type safe. Overridability: new is an operator that can be overridden by a class, while malloc() is not overridable on a per-class basis. check NULL for malloc, unnecessary for new(throw exception: std::bad_alloc) 
+new的过程：先allocate memory in heap 然后调用constructor 
+3_2) delete和delete[] 区别，delete[] 怎么知道要delete多少object的 The run-time system stores the number of objects, n, somewhere where it can be retrieved if you only know the pointer, p. There are two popular techniques that do this. Both these techniques are in use by commercial-grade compilers, both have tradeoffs, and neither is perfect. These techniques are: Over-allocate the array and put n just to the left of the first Fred object. Use an associative array with p as the key and n as the value
+例：还有让找错，其实就是 delete[] A 写成了 deleteA，比较简单。
+3_3)malloc()函数怎么实现（具体代码。。。跪）
+malloc函数的实质体现在，它有一个将可用的内存块连接为一个长长的列表的所谓空闲链表。调用malloc函数时，它沿连接表寻找一个大到足以满足用户请求所需要的内存块。然后，将该内存块一分为二（一块的大小与用户请求的大小相等，另一块的大小就是剩下的字节）。接下来，将分配给用户的那块内存传给用户，并将剩下的那块（如果有的话）返回到连接表上。调用free函数时，它将用户释放的内存块连接到空闲链上。到最后，空闲链会被切成很多的小内存片段，如果这时用户申请一个大的内存片段，那么空闲链上可能没有可以满足用户要求的片段了。于是，malloc函数请求延时，并开始在空闲链上翻箱倒柜地检查各内存片段，对它们进行整理，将相邻的小空闲块合并成较大的内存块。）
+3_4）c++内存管理http://blog.csdn.net/zhanghefu/article/details/5003407
+3_5) Is there any way to specify which part of memory I want to create an object by using new？
+void *pData = ....; // memory segment having enough space to store A object
+A *pA = new (pData) A;
+call destructor explicitly
+3_6)memory leak 为什么重要，怎么解决 X
+例class A(){};   void xyz(){    A *p = new A;    //call some functions //call some library     delete p;  }. 如果call some library出错了，会memory leak，可以 A p 或者try catch解决
+【4】stack vs. heap  difference, advantages
+http://blog.csdn.net/zhanghefu/article/details/5003407
+例int* foo(){   int a=5;   return &a; }.
+ int main(){   int* result=foo();   std::cout<<*result<<std::endl; }.  理论上来讲输出应该是garbage，因为a的lifetime只在foo里，所以指针在，但那块mem已经被标记了，输出还是5是因为那块stack没人动过，所以还是5. 但如果在main函数两行之间随便call一个别的那输出什么就不好说了。
+例 Where does   int a;   vs.  int * b = new int; allocate in memory?
+【5】c++  pass by value, reference, pointer 的区别，分别的好处及坏处
+
+http://blog.csdn.net/barryxt/article/details/4382196
+pass by value: call copy constructor, inefficiency
+pass by reference is safer than pass by pointer: void* & point to other area(改char * const ptr - 不方便), pointer could be NULL
+【6】pointer
+6.1) What's the size of a pointer
+generally have a fixed size(32bit or 64 bit)
+X6.2)smart pointer !@#%^&()_
+A smart pointer is a C++ class that mimics a regular pointer in syntax and some semantics,
+but it does more. Because smart pointers to different types of objects tend to have a lot of code in common, almost all good-quality smart pointers in existence are templated by the pointee type
+	auto_ptr: The simplest example of a smart pointer is auto_ptr, which only takes care of Memory leak and does nothing about dangling pointers issue.
+template<T> class auto_ptr {
+	T* ptr;
+	public:
+		explicit auto_ptr(T* p = 0) : ptr(p) {}
+		~auto_ptr() {delete ptr;}
+		T& operator*() const{return *ptr;}
+		T* operator->() const {return ptr;}
+		// ...
+};
+【7】overload和override的区别
+overload: save function name, different parameter
+override: derived class override the function of the base class, same function name & parameters
+【8】i++, ++i那个更efficient
+++i好 i++需要有temporary state （在i为instance，函数++返回时）为什么在for(int i = 0; i < n; ++i)里建议用 ++i而不是i++.
+【9】c-string
+/****实现strcmp, strcpy, strlen(输入\0, null结果)
+/****what does a string look like in c?(array of char terminated at '\0') 字符串指针是啥(point to the first char of a c-string)，c是怎么得到string的长度(遇到'\0'停止)，
+/****sizeof vs. strlen   char *s : s 的 length 和 size 分别是多少
+strlen() 函数计算的是字符串的实际长度，遇到第一个'\0'结束。如果你只定义没有给它赋初值，这个结果是不定的，它会从首地址一直找下去，直到遇到'\0'停止。而sizeof返回的是变量声明后所占的内存数，不是实际长度，此外sizeof不是函数，仅仅是一个操作符，strlen()是函数。 【函数示例】取得字符串 的长度。
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    char *str1 = "http://see.xidian.edu.cn/cpp/u/shipin/";
+    char str2[100] = "http://see.xidian.edu.cn/cpp/u/shipin_liming/";
+    char str3[5] = "12345";
+    printf("strlen(str1)=%d, sizeof(str1)=%d\n", strlen(str1), sizeof(str1));
+    printf("strlen(str2)=%d, sizeof(str2)=%d\n", strlen(str2), sizeof(str2));
+    printf("strlen(str3)=%d, sizeof(str3)=%d\n", strlen(str3), sizeof(str3));
+    return 0;
+}
+运行结果： strlen(str1)=38, sizeof(str1)=4 strlen(str1)=45, sizeof(str1)=100 strlen(str1)=53, sizeof(str1)=5 
+/****刚开始写了个函数 int f(const char *s);.  问输入和输出问题类型是什么，写一下如何调用这个函数，
+C的库函数里面哪个原型跟f一样。(strlen) 然后写了个 statement： f(s1)==f(s2) IFF strcmp(s1,s2)==0; 问 f如果是strlen 成立吗？是atoi成立吗？  然后实现f，我用unordered_map，写完了问了一下为什么不用map，我说map没有unordered_map快，他问为什么，我说存储结构的问题。
+【10】static
+/***static in c & static int i 和全局变量int i的区别
+	1. A static local variable inside a function keeps its value between invocations. A static global variable or a function is "seen" only in the file it's declared in. Dynamic global variable can be "extern " used in other files.
+	2.both initialized at compile time(default 0), release when program ends
+/*** class static member varible, class static member function
+	1. no *this ptr
+	2. initialized out of the definition of the class (static const可以直接在定义的时候初始化) - c++11可以直接初始化
+	3.不同子类与基类共享同一个static member variable
+【11】const
+1.const可以给非const, 反之不行（除非const_cast）
+2.指针const int *r 与 int const *r 一致， 表示r指向空间的内容不可改变; int *const r表示r指向的空间不能更换
+3.const int foo() 返回值不可做左值
+4.类中const成员变量需要在constructor中初始化，（static const可以直接初始化）
+  void foo() const; 表示不会修改成员变量
+【12】实现atoi（如果输入garbage array 比如“hello world”怎么办 - 输出前端可以转化的部分，没有则为0；不考虑科学计数法；溢出则输出max）
+【13】class :: general: OOP的特点，follow up封装性，以及为什么要封装， 什么是private， public， protected？follow up为什么要private. abstract clas，聊inheritance和polymorphism，聊oo design，经典的shape的oo design 。例子shape和circle，用C++写一个大概。
+【14】class :: default function given by compiler - 1.constructor, 2. destructor, 3. copy constructor(pass by value, return by value, construct new object, generate a temporary object), 4.assignment operator.       
+what is the difference between 3 & 4? 
+	- both swallow copy or call copy constructor/assignment operator of member variable
+	- 3 is for create a new object, might cause memory problem due to shared memory double deleted. 
+	- 4 is to assign the same value to an existed object, might cause memory problem due to shared memory & memory leak of the previous memory
+class A{
+	int c;
+public:
+	A();
+	~A();
+	A(const A &other){c = other.c;} // copy: 必须pass by &, 否则值传递反复调用这个函数直到stack over flow
+	A& operator =(const A &other){if (this != &other) {c = other.c;} return *this;} //assignment， 返回引用为了可以x = y = z
+或者const A& operator =(const A &other){c = other.c; return *this;} //防止(w1 = w2) = w3
+}
+例：一个空的class A让你改写。使得 A c; 编译不报错但是 vect<A> v; v.push_back(c);的时候编译报错。（拷贝构造函数私有）
+例：write a copy constructor for class{  char* s; }          这里郁闷了，一点一点问，然后follow interviwer的意思写，写到copy data member的时候卡壳了，说直接复制pointer 会有问题， 怎么copy。 这里发挥的太烂，感觉脑子不转了。 其实简单到: char * p; strcopy(*p, *s); 的事儿，硬是没反应。
+【15】constructor & destructor
+1. 顺序constructor：virtual base, then general base then derived; destructor永远是con的倒序
+2.virtual
+-There is nothing like Virtual Constructor. The Constructor can’t be virtual as the constructor
+is a code which is responsible for creating an instance of a class and it can’t be delegated to
+any other object by virtual keyword means
+-derived class destructor will be called when ptr points to a derived object at run time (call过之后仍会像普通的情况一样再调用父类析构) 析构也可以是pure virtual - 但必须有定义体
+3.both不能调用虚函数在基类的构造过程中，虚函数调用从不会被传递到派生类中。代之的是，派生类对象表现出来的行为好象其本身就是基类型。不规范地说，在基类的构造过程中，虚函数并没有被"构造"。因为基类构造器是在派生类之前执行的，所以在基类构造器运行的时候派生类的数据成员还没有被初始化。如果在基类的构造过程中对虚函数的调用传递到了派生类，派生类对象当然可以参照引用局部的数据成员，但是这些数据成员其时尚未被初始化。
+例class A {
+     A() { cout << "A" << endl;}
+     ~A() { cout << "~A" << endl;}
+};
+class B : A {
+      B() { cout << "B" << endl;}
+     ~B() { cout << "~B" << endl;}
+};
+int main() {
+    B b;
+    cout << "main" << endl;
+}
+求输出{A\nB\nmain\n~B\n~A\n}
+例：一个Class A， main function调用一个foo()，foo里面有两行代码：A a; cout>>"hello"。然后问如何不改function，print“why hello world”。其实就是在Class里面的Constructor和Destructor的问题。
+【16】class, virtual & pure virtual function
+1. virtual: 父类指针指向子类的时候C++用的什么机制 - dynamic binding (vptr指向compiler建的 vtable用来存vfun的address），
+2. pure virtual: lead to abstract class(), 本身可以有函数体
+例：要求实现一个 Class A， 里面有一个 foo()，别人可能会写一个 B 来继承你的 A，那么： 1、B必须实现foo()  //纯虚函数 2、如果他没有实现foo()，提供一个默认的实现 //虚函数 3、同时满足1&2 //A内定义为纯虚函数&添加函数体 B中实现foo()时调用A：：foo()即可
+X【17】sizeof() class - 函数&静态成员变量不占用sizeof()空间，需要进行内存对齐（加至4的倍数？），对于虚函数需要有virtual ptr的空间（+4）
+例：sizeof()空类（1），类里面有成员变量，类里面有函数，类里面有static成员变量， 类里有虚函数，类里有两个虚函数
+例：How mang memory (i.e. sizeof(obj) ) will an object of class: class foo {     int a;     int b;     long c; }  take? what about adding member function, and adding virtual member function? class bar {     int a;     int b;     long c;     void f1();     virtual f2(); }
+【18】singleton class
+推荐版本：(c++11后为thread-safe)
+	class Singleton{
+    public:
+      static Singleton &Instance() {
+    	static Singleton instance;
+    	return instance;
+	  }
+    private: 
+      Singleton();
+      Singleton(const Singleton &t);
+      Singleton& operator =(const Singleton& rhs);
+	};
+	//木有处理delete版本&禁止函数不全
+	class CSingleton  {  
+	private:  
+    	CSingleton(){}   //构造函数是私有的  
+    	static CSingleton *m_pInstance;  
+	public:  
+    	static CSingleton * GetInstance()  {  
+        	if(m_pInstance == NULL)  //判断是否第一次调用  
+            m_pInstance = new CSingleton();  
+        	return m_pInstance;  
+    	}  
+	};
+X【19】template
+【20】void foo(int a, int b) {          cout << a << " " << b << endl;  } int main() {         int i = 0;         foo(++i, i++);         return 0; }  求程序输出结果？ 2 0
+C++的函数是从右向左push argument, 当然, 当argument是表达式的时候, C++会先evaluate表达式. 所以,  --1. i++被执行, 0被push到stack, i变成1 --2. ++i被执行, i变成2, 然后被push到stack上 --3. 执行foo 所以输出时2, 0 - 依赖编译器的实现，实际开发中不应该使用
+X【21】Exception
+Exception Handling, How does catch() function work? http://zh.wikipedia.org/zh/C%2B%2B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86 
+Can I use multiple catch block?
+【22】cpp怎么到exe。。具体的问，每一步怎么弄，还有怎么编译怎么link，然后问如果link找不到相关的函数怎么办
+【23】读C++的code，说说编译时会出什么错。记不太清了，大概是这样
+Person { 	int age;
+}； Person p1；
+Person & p2 = p1; 【例】
+1：有一堆上古时期的legacy code（written in C），发现在生产环境下经常会crash。让我来fix。要怎么做？ 我：看看log啊看看document啊根据log定位一下出问题的地方。 他：嗯。但是document非常多，你没时间看这么多document。log一切正常，就是打印了某一行正常的log之后就crash了。 我：那我看看core dump。 他：好的。那我看了core dump，发现是个segment fault。怎么办？ 我：可以用一些static/dynamic analysis tools看看哪里有illegal memory access（比如valgrind）。 另外一个面试官：你用过valgrind吗？我说曾经有个project用过。 他：那我现在找到有一段代码，大概长这样： int i = 0; int a[10]; /** some other code, including some function calls **/ a[i] = 0; crash在a这一行。你怎么看？ 我：检查中间的其他代码有没有修改a或者i为非法的值。 他：都没有。 我：再看看中间那些function，如果有参数为a或者i的，看那些function有没有非法修改a或者i。 他：都没有。哦我刚才忘记说了。我在a之前检查了一下i，发现是个0xabcdef什么的值。 我：（卡壳） 他：我给你个提示。我发现如果我把第一行改成 static int i = 0; 程序就不crash了。 我：嗯……那说明有其他线程污染了i…… 他：你想想static和没有static的区别是什么？. Waral 鍗氬鏈夋洿澶氭枃绔�, 我：有static，i在单独的data segment里。没有的话i就在stack上。 他：然后呢？ 我：调用其他函数的时候stack被污染了！ 他：（点头） 2：给两个函数，DB* openDB(const char* name); int closeDB(DB* db); 针对成功的操作和失败的操作都有不同的返回值。写一个c++类把这俩封装起来，让我在这个程序里可以随便调用。 我写了个singleton。大概就是 http://stackoverflow.com/questio ... eton-design-pattern 这样的，另外加了一个destory()来close资源。 他问了我里面的几个static的意义。然后说我这里DB返回的是指针，你要返回的却是引用。这都不能编译啊怎么破？ 我说把返回的指针dereference，然后存起来。调用getInstance的时候返回引用。 他说这样可以编译。但我跑的时候发现这里会crash，为什么？It's all right if you don't know that。 我这个assignment可能是一个shallow copy，里面有pointer的话就可能会有指针管理上的问题。 他表示这不是他想要的答案……(最后一题可能是 threading的问题。 其他的thread可能已经删除了这个object 所以应该是先一个类似OpenPinned)
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=107560&extra=page%3D3%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3046%5D%5Bvalue%5D%3D14%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+X3.接着就问有个类，在构造函数中有一个打印Hello world的函数，但一运行就出现seg fault，程序编译是成功的，问会查哪些地方来debug
+【other】在C语言中异常处理一般有这么几种方式：
+--1.使用标准C库提供了abort()和exit()两个函数，它们可以强行终止程序的运行，其声明处于<stdlib.h>头文件中。
+--2.使用assert(断言)宏调用，位于头文件<assert.h>中，当程序出错时，就会引发一个abort（）。(只在debug模式下使用，release下忽略)
+--3.使用errno全局变量，由C运行时库函数提供，位于头文件<errno.h>中。
+--4.使用goto语句，当出错时跳转
+问Maxstack就是lc上面改一改就行，又问了问用继承这题怎么写，口述即可
+【==============os/network===============】
+1. process 和 thread什么区别，thread中什么私有的（我记得好像是stack），
+2.问void dfs() { dfs();}这个函数会怎么样。。当然就是stackoverflow了。。然后问为什么会这样
+3.问lock, 什么是reader lock什么是writer lock，大概说一下，然后还大概问了一下读者优先和写者优先
+4.Mutex的实现方法
+5. 然后问了一些数据结构的问题，楼主印象比较深的是，对于一种数据结构，如果他在内存中存储比较compact，比如是连续的，有什么好处？ 答案是，这样访问的时候，访问同一page的概率比较大，switch page in and out的次数小，实际效率会提高。。
+compact的理由是缓存命中吧，高端的用法可以看看这个： http://dice.se/wp-content/upload ... Oriented_Design.pdf
+6. virtual memory怎么回事
+7. 问怎么implement synchronization，我答曰用lock，她接着follow，如果有一个bank class，里面有储户的信息，以及withdraw和deposit函数，怎么用synchronization保护数据的一致性，当时我就有点蛋疼，想着没用java写过synchronization，就照着c写了一下，她说不对吧，java里面没有lock语法，只有synchronize，我当时回想不起来java synchronization的用法了，于是就在这个设计问题上纠结了半天。最后也就不了了之了。
+8. what will happen after entering a url? what file will be returned ? (??????) what date structure to store it ?   tree???
+【============database==============】
+1.首先来就是实现一个数据库的设计，就是员工，manager, relationship,department之类的。挺简单的。然后针对这个relationship表，找出employee1和employee2的第一个common manager.
+2. 给如下一个Table, 用mysql query找出所有前一天温度比当天高的日子有哪些 [qita] DayId(INT) | Date(DATE) | Temp(INT) 1|2/1|10 2|2/2|25 3|2/3|20 4|2/4|30 比如上面这个例子，返回2和4就行啦
+3. sql题，给一张表，有两列分别是date 和 temparature. 找出比所有的date，该date的温度比前一天高。话说lz早上刚刚考完数据库好么。。。。。。。 我告诉他我记不太清楚sql的语法，但是我可以用relational algebra表示，他说没问题，我就讲了一下思路，过了。
+4. 第一个问题问了我sql的操作，找一个table中第n大的数
+5. SQL outer join和inner join区别
+6.一个database的问题，说用mysql的查询select * from table where...这种语句对于软件开发有什么不好的地方，假如查询的时候，table的结构变了，会出现什么问题？我就说可能会因为结构改变导致where后面的condition无法满足。接着他follow up说好，那设计表的时候，foreign key有什么作用，举个例子，我就举了一个公司员工信息的例子。
+【===========EE=============】
+1.怎样用一个电容和电阻实现低通滤波器
+2.怎样用移位寄存器实现与非门
+3.F score

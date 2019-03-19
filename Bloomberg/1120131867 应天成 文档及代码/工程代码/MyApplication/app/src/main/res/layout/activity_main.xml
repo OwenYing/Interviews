@@ -1,0 +1,218 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:keepScreenOn="true"
+    android:background="@drawable/background_22"
+    tools:context=".MainActivity"
+    >
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:clickable="true"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cameraOrRecordSwitch_2"
+        android:checked="false"
+        android:textOff="照相"
+        android:textOn="录像"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="拍照"
+        android:id="@+id/photoButton_2"
+        android:layout_below="@+id/cameraOrRecordSwitch_2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/cameraOrRecordSwitch_2"
+        android:layout_alignEnd="@+id/cameraOrRecordSwitch_2"
+        android:background="@drawable/button_press"
+         />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/landingImageButton_2"
+        android:src="@drawable/landing_2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/photoButton_2"
+        android:layout_alignRight="@+id/photoButton_2"
+        android:layout_alignEnd="@+id/photoButton_2"
+        android:background="@drawable/button_press" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/leftControlUpImageButton_2"
+        android:layout_above="@+id/leftControlRightImageButton_2"
+        android:layout_toRightOf="@+id/leftControlLeftImageButton_2"
+        android:layout_toEndOf="@+id/leftControlLeftImageButton_2"
+        android:background="@drawable/control_button_press" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/leftControlDownImageButton_2"
+        android:layout_below="@+id/leftControlLeftImageButton_2"
+        android:layout_toRightOf="@+id/leftControlLeftImageButton_2"
+        android:background="@drawable/control_button_press"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/leftControlRightImageButton_2"
+        android:layout_above="@+id/activeButton_2"
+        android:layout_toRightOf="@+id/leftControlUpImageButton_2"
+        android:layout_toEndOf="@+id/leftControlUpImageButton_2"
+        android:background="@drawable/control_button_press" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/leftControlLeftImageButton_2"
+        android:layout_below="@+id/leftControlUpImageButton_2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/control_button_press" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rightControlUpImageButton_2"
+        android:layout_above="@+id/rightControlLeftImageButton_2"
+        android:layout_alignRight="@+id/rightControlDownImageButton_2"
+        android:layout_alignEnd="@+id/rightControlDownImageButton_2"
+        android:background="@drawable/control_button_press" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rightControlRightImageButton_2"
+        android:layout_alignTop="@+id/leftControlRightImageButton_2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/control_button_press" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rightControlDownImageButton_2"
+        android:layout_below="@+id/rightControlRightImageButton_2"
+        android:layout_toLeftOf="@+id/rightControlRightImageButton_2"
+        android:layout_toStartOf="@+id/rightControlRightImageButton_2"
+        android:background="@drawable/control_button_press" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rightControlLeftImageButton_2"
+        android:layout_above="@+id/rightControlDownImageButton_2"
+        android:layout_toLeftOf="@+id/rightControlDownImageButton_2"
+        android:layout_toStartOf="@+id/rightControlDownImageButton_2"
+        android:background="@drawable/control_button_press" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/displayDataTextView"
+        android:text="参数信息"
+        android:clickable="false"
+        android:textColor="@color/abc_primary_text_material_light"
+        android:layout_toLeftOf="@+id/bmapView"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/accessButton_2"
+        android:layout_above="@+id/activeButton_2"
+        android:layout_alignLeft="@+id/accessButton_2"
+        android:layout_alignStart="@+id/accessButton_2" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="激活"
+        android:id="@+id/activeButton_2"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/leftControlRightImageButton_2"
+        android:layout_alignLeft="@+id/leftControlRightImageButton_2"
+        android:layout_alignStart="@+id/leftControlRightImageButton_2"
+        android:background="@drawable/button_press" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取权限"
+        android:id="@+id/accessButton_2"
+        android:layout_alignTop="@+id/activeButton_2"
+        android:layout_toRightOf="@+id/activeButton_2"
+        android:layout_toEndOf="@+id/activeButton_2"
+        android:background="@drawable/button_press" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="起飞"
+        android:id="@+id/takeoffButton_2"
+        android:layout_below="@+id/displayDataTextView"
+        android:layout_toRightOf="@+id/accessButton_2"
+        android:layout_toEndOf="@+id/accessButton_2"
+        android:background="@drawable/button_press" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="指令信息"
+        android:id="@+id/commandTextView_2"
+        android:textColor="@color/abc_primary_text_material_light"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/displayDataTextView"
+        android:layout_toRightOf="@+id/cameraOrRecordSwitch_2"
+        android:layout_toEndOf="@+id/cameraOrRecordSwitch_2"
+        android:layout_alignBottom="@+id/bmapView" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="断开连接"
+        android:id="@+id/disconnectButton_2"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/homeButton_2"
+        android:background="@drawable/button_press"
+        android:layout_toLeftOf="@+id/rightControlLeftImageButton_2"
+        android:layout_toStartOf="@+id/rightControlLeftImageButton_2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="回家"
+        android:id="@+id/homeButton_2"
+        android:layout_toRightOf="@+id/takeoffButton_2"
+        android:layout_alignTop="@+id/takeoffButton_2"
+        android:background="@drawable/button_press"/>
+
+
+</RelativeLayout>
+
+

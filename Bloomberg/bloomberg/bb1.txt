@@ -1,0 +1,234 @@
+【===========算法============】
+【*****leetcode/lintcode*****】
+same tree, Binary tree inorder iterator, inorder & postorder traverse BST, binary tree level order traversal(print指定level的binary tree), tree upside down, add next to every tree node, Convert Sorted Array to BST, binary tree的maxSumPath, reverse linkedlist, linkedlist输出倒数K个node的值, linked list取中值, linked list做减法/加法（反序）, valid BST, linkedlist找merge point, copy linkedlist with random pointer, flatten BST to linkedlist(把BST替换为2Dlinkedlist，本质不变), depth, interseciton of linked list(一个一步一个多步是否可以（复杂度高）) LRUCache, upside down, recover binary tree from inorder and preorder, 
+word search I, min stack, stock transaction I(buy date is needed) & II, two sum, subset, unique paths II, merge two/k sorted array/linked list, Find kth largest number(quickselect, array partition), sort colors, remove duplicate from a sorted array, search in sorted rotated array(binary search), search for a range and delete it in array, next permutation, find peak element(一个先降后升的数组，怎么在这个数组中找到target值 [先找到最小值，然后分别二分查找]), rotate array, single number(简单版-两个整数数组 所有元素完全相同 但第二个array少了一个数 求少的那个数。array中数字是乱序), valid Parentheses(follow up如果加入" " 和 ' ' 怎么处理？" "中间的视为全部合理，里面的内容可以忽略), Trapping Rain Water, Container With Most Water, merge interval, course schedule II(topological sorting), surrounded region(起点给定，而非四周，通过最后判断是否全X来判断给定的X是否封闭)
+palindrome number(先让count一下6位数的palindrome有多少种可能，比如100001，234432这种. 然后让print出所有的), reverse integer(reverse a float, follow up 用 a == reverse(reverse(a)) 来判断overflow行不行), atoi, excel sheet column title/number, power(recursive & iterative), sqrt (指定精度 or返回double - 牛顿迭代), RomanToInteger, IntegerToRoman, 矩阵螺旋(给一个矩阵，从中间开始旋转着一圈一圈把值打印出来。代码写完之后还追问了一下如果要允许用户自定义螺旋的方向要怎么改)
+reverse words in a string(1.一开始我想用两次while循环那种解法，边写边念叨思路。然后三哥说不要用这种，换一个一次循环的，函数容器随便用。感觉他确实在干别的事，我就直接把char *的input转成string然后空格分割存进vector再逆序合并2. 去掉一句话中多余的空格。输入“  The    sky  is   beautiful  !  " 输出 ”The sky is beautiful!" 他开始给的例子里没有标点符号，我就没考虑到=。= 后来也没让修改了。。), anagram [hashmap,面试官prefer质数], add and search word(给一个string的字典和一个target string，要求找出字典中所有跟target近似的string，带*的匹配), longest palindrome substring, shortest palindrome(从后面添加), strstr()
+Binary Tree Upside Down 
+Given a binary tree where all the right nodes are either leaf nodes with a sibling (a left node that shares the same parent node) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root.
+For example: Given a binary tree {1,2,3,4,5},
+return the root of the binary tree [4,5,2,#,#,3,1].
+这题有一个重要的限制就是，整个数的任何一个右孩子都不会再生枝节.
+	public TreeNode UpsideDownBinaryTree(TreeNode root) {
+		if (root == null)
+			return null;
+		TreeNode parent = root, left = root.left, right = root.right;
+		if (left != null) {
+			TreeNode ret = UpsideDownBinaryTree(left);
+			left.left = right;
+			left.right = parent;
+			return ret;
+		}
+		return root;
+	}
+	public TreeNode UpsideDownBinaryTree(TreeNode root) {
+		TreeNode node = root, parent = null, right = null;
+		while (node != null) {
+			TreeNode left = node.left;
+			node.left = right;
+			right = node.right;
+			node.right = parent;
+			parent = node;
+			node = left;
+		}
+		return parent;
+	}
+
+【*****data structure******】
+1.array, vector, list, stack, queue, priority_queue, set/map, unordered_set/map
+2. design a queue using stack
+3. 用linkedlist实现stack
+4. 关于一个Hash, 说最下面的数组实现，比如某个hashmap最下面用了个长度1M的数组，但是因为每个object很大，于是不希望一开始就把整个数组都初始化。但是如果不初始化的话在lookup的时候就无从得知这个key对应的value是不是存在。如何解决这个问题？我说那既然这样我可以用自平衡的搜索树来索引已经存在的key，每次lookup的时候先到树上找一下。她说太慢，能不能把lookup的复杂度控制到常数。我想不出来，她提示说可以在已经存进来的value object上附加一些额外的信息……我还是想不出来，但又想到了另外一个办法，就是把1M的数组拆成多级数组（像page table那样），这样每次只要初始化几百个或者几十个数组单元就可以了。她对这个答案表示也比较满意。(可以设计类似version)
+5. 选用你的数据结构在一本书中找出最新的5个单词。我说用priorityqueue
+6. 设计一个Big Integer的类
+	用vector<int>存, 完了他说可不可以更有效点存，也就是每个位置存2个digits
+7.写一个linkedlist这个类，输出0~10就这样
+8.用char数组写string类
+write a copy constructor for class{  char* s; }          这里郁闷了，一点一点问，然后follow interviwer的意思写，写到copy data member的时候卡壳了，说直接复制pointer 会有问题， 怎么copy。 这里发挥的太烂，感觉脑子不转了。 其实简单到: char * p; strcopy(*p, *s); 的事儿，硬是没反应。然后时间就差不多了。让我问了个问题，他扯了几句，就结束了。
+9. 假设类似vector的这种类 class SelfDefinedVector {     void insertNULL(); }问题：如何实现这个insertNULL方法？
+	加入unordered_set记录index；设一个对应bitvector设置对应的Index的是否valid；每次连续插入两个值，第一个值为1代表valid；
+10.1）给你一堆文件，里面包含很多单词，然后要查寻一个单词在哪些文件里出现过，会有很多很多查寻     follow up 1：如果要让文件名按序输出，怎么办     follow up 2:  如果有新的文件加进来，怎么办. 
+将查询结果按unordered_set<word, list<file>>存入，若有序则换list<file>为map<file>
+2）基本来说是sort strings，可是strings在不同的file里，而且有duplicate，一开始让sort，后来要search，他自己说search要返回所有存在的file的名称，然后我做出来之后让我优化，说file可能有大有小，要从小的开始搜，我问他为什么，你最终要的是所有的filename，然后他无语。在这上面扯了很久。
+3) given a story (text) and an array of keywords, find the keywords existing in the story [生成automation匹配]	
+11.设计一个单变量polynomial类。支持求导操作。多项式稀疏的话怎么存。
+12.设计一个dropdown menu that contains 5 most recently visited urls，本质其实就是LRU cache。
+13. 亚裔MM说是她现在的project，设计一个data structure，可以方便update， 比如说原来一行数据有三个attributes，方便一年后变成10个attributes。
+一个stock有三个properties,有N个组合，然后让我做match，我想了想说用三个HashMap，一层套一层，行不行。他说可以是可以，但是如果又有一个新的property怎么办，我说那就得里面再加一层，这样肯定是不好。然后他说对啊。
+14. 设计个结构，有很多documents，然后给一个word，如果该word存在这document里，返回该document的标题。
+15. 有很多信息，如何一直保持最新的20条。我说用queue. 然后又问，顾客想找一个公司的信息，该怎么办。答用hashmap 或者 dictionary. 问了时间复杂度。又问了如果一下子一个公司有很多信息更新，然后顾客搜寻这个公司信息的时候会出现什么问题。(cache)
+16. 要我画一个facebook的社交图，然后如何遍历这个图，找到三度好友
+17. 设计一个好友介绍功能， 就是把拥有共同好友数目最多的好友推荐一下。她的意思是就是给我一个人，它有一个list表示他所有的朋友，每个朋友有个linkedlist表示他的朋友，要把跟这个人共同好友最多的，但是目前还不是他朋友的top5取出来
+18. 实现auto-complete。我说哈希和trie都可以。然后写了代码
+19. 比如我输入一堆公司名，可长可短，让你设计一个数据结构，要求存下这些名字，并且按输入顺序print出公司名（重复出现的公司名不会被存入）。最后我用arraylist和hashset实现的，当然答案可以很多种，说出来就好，都不难。然后问了如何设计hashfunction，比如针对integer或者string，如何设计，如何解决collision的问题（我说用chaining，解释了一下如何实现，追问还有别的办法否，我说我只知道这个，对方表示itsOK）（也可以用trie替代hash）
+【*****函数实现*****】
+1.给一个char型数组，然后reverse， 让口述代码，strcmp, strlen, strcpy, itoa
+2.给一串字符，把里面空格换成%20
+3.从尾到头打印linked list. O(n)时间O(1)空间
+【*****算法****】
+1. entry[1, 5, 9 15, 20], exit[2, 6, 18, 35，60] 里面存的是time stamp，记录是进入会议室的时间，给你一个时间，问你此时会议室里面有多少人，我说了一下方法就是binary search什么的，后来非要我优化，我就说了一种类似于radix sort的方法，已知一些数据可以进行预处理(?利用bucket sort预处理, e.g.每个bucket存10k ~10k+9, 在对应bucket内binary search)
+2. find unique missing(1-100有99个数只出现一次，找到missing one, 用求和可能溢出 ----我说用平均数代替，他说用tree可以达到O(lgn))
+int findUniqueMissing(const std::vector<int> a) 
+    int ans = 100;
+    for (int i = 0; i < 90; i++){
+        ans ^= i+1;
+        ans ^= a[i];
+    } 
+    return ans;
+}
+若array为sort，可以binary search，类似：
+Given an array of unique integers in increasing order, return the integer with its value equal to its index in the array
+3. 1）求array 平均数， 非常基础，要求念出具体的code。又问数多溢出怎么办.
+2）有很多个node，每个node 存了一个int数组。
+——如何求一个global_Average，全部node里所有数组的平均值。简单。 ——如何求一个global_Median。他提示，你可以写一个function 去check If_global_median。 这个可以写，就是让每个node 返回有多少个数比他大，多少个数比他小，总个数，是否存在这个数。用第一步得到的平均数去check(or 最大最小的平均值)，然后二分查找。
+3）找streaming median。 我用了两个heap，三哥说你确定要用这个吗，我说是，他说那你写吧，写完再说。 时间复杂度，nlgn。 他说还可以更快吗。我想了一下，可以建数组，存frequency，他问这样做问什么可以找median。
+4.把多个string存成一个string来传输，然后对方可以还原为多个string (cipher and decipher),过程要求无空格, 原串中可以包含任意字符。
+	- 可以用length的数值作分割，放在每一个string的前面，可以在数字后面加个#
+	- 把一个非空格字符x变成1x, 空格变成00
+	- 转义：约定空格编码成\，原本的\用\\来表示。那么在decode的时候如果看到了\，就看后面连着的是什么。如果是\\就替换成\, 如果就孤零零的\，那就是空格了。 5. 给个数组，例如｛3，1，1，6，6，9，9，9｝， 然后按照数字频率由高到低输出，如果频率一样，则大的先输出。结果就是“9，9，9，6，6，1，1，3”, 这道题用的hashtable先算每个数频率，然后对所有的arraylist排序。
+6. fib数列, 基本递归（T(n)=T(n-1)+T(n-2)=> T(n) = ((1+sqrt(5) )/ 2)^n）和循环的让说了下复杂度，DP的代码让说了下
+7. 给两个matrix S和P，判断P是否是S的submatrix，面试官说用brutal force即可。
+8. ABCDE 变成 DEFGH 就是平移了一下..然后给一个字典确定某个单词是都有效，要求是恢复全文，只考虑lower case.第一个单词找出所有possible shift distance然后第二个用第一个的结果narrow down这些可能的distance..一直到最后剩下一个就是我们要的..问是不是要读完所有单词,找到剩一个distance程序里的for就break了.
+9. 给一个array，让你找到最大和第二大的数
+two array A and B, find the max positive difference between element a from A, element b from B, but a and b cannot have the same index. 其实简单到不行啊，就是一个找前两个最大的，一个找前两个最小的。
+10. Hamming Distance。就是给两个数，求他们有多少个bit不同。
+11. Search a 2D Matrix  10，20， 40， 50 12，22， 45， 52. 
+15，36， 47， 60 18，38， 48， 70
+12.概率
+1) shuffle card
+2)现在有一个random generator可以generate 范围是1-5的integer, 问怎麽generate出1-7的integer, 要求要equal possibility.
+3)16KB int的数随机数是rand()，然后64KB integer的用rand()怎么表示。(rand() << 32) + rand()
+13. string compression(1.问这有什么用，答可以压缩空间。问什么时候不能用，答abcd时候不行。还有什么时候不行(string 里含数字？)。三哥说如果重复很多会有什么问题。答应该会integer overflow 2.decompress string，a#3b#4cddf#4 -> aaabbbbcddffff)
+14. 给一个二维递增数组，最后一个空里面是space，最后的space可以和左边，右边，上边的数交换，可以交换好多步。要求的函数是给交换后的结果，从结果推出交换的步骤。这个数组里面的每个数都是确定的，永远是1-n，直接在空格周围找到该在这儿的数再不断交换直到space到最后一个空为止。 交换前的矩阵例子： 1    2    3    4.  4    5    7    8 9    10  11  12 13  14  15
+15. [event-driven]
+1)每个人有死亡时间和出生时间，在1900-1999之间，找出哪年活人最多。
+2)有一些schedule，不同人的，然后找到大家都有空的第一个slot；他不告诉你输入类型，所有的都是自己定义。
+16. ［1，2，－2 ，1，－2］这样的叫singlecycle把，意思是，从index0开始，index0＋array[index0]跳到1，然后index1+array[index1]继续跳，要求是，每个index都跳到，而且最终跳回index0.空间O(1)，就想到用count来计数，count＝array.length的时候检查当前index是否在0，结果烙印又给了个edge case[3, x, y, -3]。[while(index != index0 && count != array.length) 跳出循环后如果两个条件同时爆表则true 否则false]
+17. bst，给一个double数字n，要求找到bst里面跟这个数字最接近的节点.
+18.给一个图，given你自己的node，返回有最多邻居的你的邻居。
+19.问了integral image存像素的方法，让你实现两个function，update pixel 和 给定两个点，找出这两点组成的矩形内所有pixel之后，然后分析这两个function complexity. 找pixel sum的时候也要check 边界条件，和考虑integer overflow
+update(vector<vector<int> > M, int x,int y,int value){ // your code;   // 此处 check 边界条件 然后 M[x][y] = value; }
+20. 一个很长的linkedlist, 不知道head在哪里，给出一个node要你删掉。
+21.1) put all white spaces in the end of the array input: char array.  output: void  note: in place
+2)给一个int数组，把数组中所有的非零元素挪到数组的右边，所有零挪到数组的左边，要3)求不能改变非零元素原来的相对顺序。（其实0的相对位置改变了- -）
+22.给两个数组，第一个记录数，第二个记录待删除的数的index。从第一个删掉第二个数组中出现的index对应位置的数。（先将后者排序）
+23.数组/链表 找交集差集并集
+给你N个数组代表N种股票的每天的交易员ID（比如1 2 2 2 8 2 1就代表7天里3个交易员在负责这些股票），返回所有参与过所有股票交易的交易员ID。 这个用hashmap存交易员id和他对应的count，同时记录当前扫到第k个股票的数组。如果看到一个id，并且count等于k-1，就加1。结束了把所有count等于k的id输出。
+——1)hashSet(当集合类别有限时可以考虑直接作为数组下标或用bit操作在一个int上记录（a-z）)
+——2)先分别排序，然后类似merge得到结果（对于数组可以仅排序第一个，第二个通过binary search处理）
+——3)多个可以依次拿之前的结果和之后的比or hashmap数个数or分治分布式，先分别两两处理，再同样方式处理结果
+24.1）given a string, find the first duplicate/unique character in this string. 
+remove duplicate in array考虑所有的edge case， 我用try catch exception
+2) 如何找第一个字符串中出现的第一个第二个字符串的字母。给我举例子，S1 = "Hello", S2 = "Apple"，那么返回2，因为s1(2) = 'l' == s2(3)
+3）一个数组print出第一个出现次数为奇数的数。卤煮说用hashtable，value为count。印度小哥要求减少hashtable的空间，卤煮当时想半天也没想出来（后来觉得可以把count的类型定义为boolean或者byte，就比integer小了嘛——直接用hashSet插入/删除），卤煮给了另一个异或解法，pass。
+Q4). 数组里有一堆数字，除了一个出现奇数次，其他都是偶数次。找到那个奇数次的。 就是single number，会问你如何检查输入数组是对的，比如全部是偶数，比如有两个奇数。这个拿第一次出来的结果回去再扫一次数组统计这个结果的出现次数验证之就可以了。[0, 错误输入检查?]
+——1）hashmap记录出现次数（hash情况同23），queue记录出现顺序（如果需要）
+——2）先排序 - remove duplicate from sorted
+25.给个char数组然后打印排好序的，我最开始说mergesort，他不满意，我说用数组存下count，他说好
+26.一个无序的数组，打印里面所有差值为3的pairs，pair中大的在前，小的在后。例如 [1, 3, 9, 2, 6, 8, 4, 7]那么就应该打印 (7,4) (9, 6) (6, 3) (4, 1) ....我说全放到hashset里面遍历，看相差为3的元素在不在set里，然后分析时间空间复杂度。follow up问如果O(1) space怎么做，我说排序，然后双指针或者binary search，先分析时间复杂度，然后写代码
+27.给一个只有0和1的矩阵，0是能走通的地方，1是过不去的墙，从0，0开始走，只能走上下左右，打印出所有能走得到的点。
+28. 找leading number。就是给个数组找出那些比其后出现数要大的数。比如2 4 12 5 3 4，leading number就是12 5。（O(n)从右往左扫一遍出来。）
+29. find mode value in an unsorted array. 我的思路是先radix sort，然后从左到右扫了一遍，update之前出现最多次数的count和对应的数。（mode value就是数组里出现的次数最多的element,不一定超过数组数量的一半，所以majority  vote 不行）。
+30.判断一个double的长度是否为k（连续*10至刚好为整数，并判断当前/10^(k-1)是否>=1 & <= 9），判断一个数的小数是不是K位（*10^k取整后不变&&末尾不为0）
+31.1）链表里如果每个节点四个方向都有指针，给你这样的链表和一个值，让你找出值是否存在。遍历即可。
+2）就是一个字母的matrix和一个字典.要我找到所有这个字母matrix能组成的存在于字典的单词..和某道leetcode挺像.然后又问了不是2D的是3D多D怎么办，什么数据结构好使.  我恍了一下然后说了句adjacent list，只见他眼前一亮,于是我就想到了图, 我说可以构建图然后做BFS，他说那是exactly what I want,   
+32. 排序
+1）然后国人小哥问了sort的各种算法，让我从一个乱序的数组里面，找出所有(i,j)pair，其中i的index比j小，值却比j大。(merge sort)
+2）external-sort 给一个file有上千个numbers，给一个size为50的array，sort这个file
+33.给两个list，A ＝ {1, 2, 3, 4, 5}, B = {1, 2, 8, 7, 3, 9},  一种输出结果应该是 {1, 2, 8, 7, 3, 4, 9, 5}，按照数字在A，B中出现的先后顺序合并。 (这道题用两个Map标记一个数在A和B中出现的位置，i, j为A、B当前的下标，A[i] == B[j]，则添加一个，然后i++，j++，如果map_B[A[i]] > j，则添加B[j]到结果，j++; map_A[B[j]] > i，则添加A到结果，i++。若同时成立则有环，其他情况随便添加 or 拓扑排序)
+T33. 股票系统 Apple 300， Goole 150， Apple 150，。。。 烙印说你弄个maxvalue， minvalue，
+W35. malloc a 2d array in c
+36.string to integer& integer to string带逗号，比如32,729 要变成32729.问edge case像空格啊字母啊要怎么处理（直接print）
+37.找一个string的distinct substring数量，follow up如果这个string有100,000个char咋办(suffix trie)
+W38. given一个linkedlist of numbers, check if it is a palindrome
+39. 给一个matrix of numbers，问怎样找出相同row。（类似bucket sort）d
+40.（a+b）*c＋（a+b）＋c，去除没用的括号。
+41.从一个字典中找出能被其他单词拼成的所有单词， 就是CC最后一章的题目。
+42.给一个list, list中有两个数. 过程中可以一直往list中加数进去(append在最后), 但必须一直遵守三个条件:
+1. list中所有数均需大于0
+2. list中所有数都必须为unique
+3. 新加入的数必须为已存在list中的某两数的差
+要做的事情是把所有可能的过程(一直加到没办法加入新的数字为止)都给打印或是回传
+ex. [30, 5], 则最新加入的数只能为25, list变为[30, 5, 25]
+继续, 只能再加入20, list成为[30, 5, 25, 20], 接着就有两种选择, 可以加10(30-20) 或是15(20-5).
+于是会分出两个branch
+[30, 5, 25, 20, 10] 跟[30, 5, 25, 20, 15], 然后再把最后一个可能补上之后变成
+[30, 5, 25, 20, 10, 15]跟[30, 5, 25, 20, 15, 10], 所以就回传这两个list.
+可以预见的是如果一开始的两个数大小相差很多ex[99, 1] 那最后就会回传很多种path
+加入的时候即刻存对所有数的差，预先通过最大公约数得到list的size
+43. 数字合并。就是1,2,3,4,6,7,9,11的话要变成1-4,6-7,9,11
+44.给了一个自定义的类： Class Stream {    vector<int> numbers;
+   int getNextMin(); } numbers里面的数字是无序的。getNextMin方法返回下一个最小值。问题：用上面给出的类实现下面的新类： Class NewClass {     vector<Stream> streams;     int getNextMinNumber();
+} 要求实现这个  getNextMinNumber 方法。
+45.remove 所有有且只有一个child的节点（将child连致parent）。Level order travel + hashmap解决。
+46.类似two sum，两个array，unsorted，may have duplicate，里面的数值都是bytes，要求不用hash table，不用额外数组，找到一个pair sum to target value，然后想法是用一个long long的var当成bit vector，对于第一个array里的每个数，那个long long var的对应bit置1。。。[radix排序?]
+48. 面试官叙述了一个问题，大致是一个公司有n个小组，招收了m个新人（n>m），培训结束后按打分制度把学员分配入各个小组，每个小组只能招收一个新人。每个新人按照喜欢程度列出最想去的小组，每个小组按照喜欢程度列出想要的新人，如何找到最好的match？比如说小组1最想要A，其次是B，再其次是C； 小组2最想要A， 其次是C， 再其次是B；  A最想去小组2，其次是小组1；B最想去小组1，其次是小组3。。。此时应当把A分配进小组, B 分配给小组1。 面试官的想法是： 先根据每个新人的打分询问小组，看该小组是否已招到人，如果没有，加进新人并把状态改为招到人。如果再有新人询问想要进该小组，该小组比较对两个新人的打分情况，留下喜欢程度高的新人，“踢走”另一个新人。如此循环，直到所有新人都找到小组。之后让我把他的想法实现成代码。
+49.有1，3，5三种面值硬币怎么用最少的硬币凑出凑到target
+50.linkedlist相交
+1）intersection of two linked lists的升级，给三个list，结构严格按照如下描述。首先有两个list会merge到一点，形成一个list之后再经过几个node之后和第三个list merge到一起，guarantee有两个merge的点，如下图 head1 head2   head3 |          |           | |          |           | |          |           |  \        /            |    \     /              |     \ /_ _ _ ___  _ |_ _ _ _ NULL 现在给三个list的head，找出第三个list的head(就是给你三个list的head，然后找出最后一个merge进来的list的head，图中的head3)。
+2）K个链表相交,找这K个链表的第一个共同交点，给的是K个链表的head,链表长度未知, 在他的各种提出要我优化下，我给了3,4种解法.他的要求是没有必要每一条链表都从投走到尾..  其实就是可以hash node的position然后其他剩下的所有链表走到交点判断下相交点的position是不是比当前存的更大就行了。
+51. Given parent - child pairs, reconstruct the tree and return the root node. [用一个hashmap来存已经读到的node，然后再用另一个存所有的child，通过比较两个hashmap的keyset就可以得到root，然后返回就好]
+52.input array of number {1,2,3,4,5,6} return number of  array {2*3*4*5*6, 1*3*4*5*6,1*2*4*5*6,1*2*3*5*6,1*2*3*4*6,1*2*3*4*5 }, 要求 不允许用除法
+int left = 1, right = 1, n = num.size();
+vector<int> ret(n, 1);
+for (int i = 0; i < n; i++) {
+	ret[i] *= left;
+	ret[n - 1 - i] *= right;
+	left *= num[i];
+	right *= num[n - 1 - i];
+}
+53. 一长串整数，大到放不进内存，每个数任意大小，无序，要求一个功能：返回一个其中不存在的整数，如何实现。(每部分sort，得到空闲interval 取交集)
+54.实现auto-complete。我说哈希和trie都可以。然后写了代码
+55. 给你一堆坐标点，找出当中的一个坐标点使得所有坐标点到该坐标点的曼哈顿距离之和最小（思路：计算两个数组totalX[n], totalY[n]. totalX[i]表示如果在i点集合，所有其他点到i点的x方向距离之和是多少？ totalY[i]表示如果在i点集合，所有其他点到i点的y方向距离之和是多少？ min(totalX[i] + totalY[i]) 就是最后答案。 先对所有点按照x坐标排序。然后用O(n)的时间算出totalX[i]。 totalX[i] = totalX[i-1] + (i左边有个的点数 * (X[i] - X[i-1])) - (i-1右边有的点数 * (X[i] - X[i-1])) totalY[i]一样的思路。然后O(nlogn)是总复杂度. ）
+Q66. 将一个int转化为素数相乘的形式，例如10的输出是“2*5”， 30的输出是“2*3*5”
+Q67. 给一个list的air tickets, 每个ticket有出发地和目的地，给这个tickets排序，使得能够完成一次round trip
+68.给你很多很多的点，和之间有没有连线。要你设计一个数据结构来判断给你任意两点，他们是否连在一起的（图的链接区域 or UF）
+Q69.有一个数组，数组里元素先递增再递减再递增，然后给一个element， 返回该element的index或者-1， input : [2,3,5,7,-3,-2,-1，4]  element:-3  返回4
+70. 将一个int转化为素数相乘的形式，例如10的输出是“2*5”， 30的输出是“2*3*5”
+将一个正整数分解质因数。例如：输入90,打印出90=2*3*3*5。 程序分析：对n进行分解质因数，应先找到一个最小的质数k，然后按下述步骤完成：  (1)如果这个质数恰等于n，则说明分解质因数的过程已经结束，打印出即可。 (2)如果n<>k，但n能被k整除，则应打印出k的值，并用n除以k的商,作为新的正整数你n,重复执行第一步。 (3)如果n不能被k整除，则用k+1作为k的值,重复执行第一步。
+71. “给一棵树，将它打乱。保证在新树中，每个节点的子节点都不是原来该节点的任意一个”[大概思路就是是：  TreeNode *randon(TreeNode *root){      if (root==null) return nullptr;
+   if (!root->left && !root->right) return root;     TreeNode *left = randon(root->left), *right = randon(root->right);
+    if (root->left) {
+		root->left = left->left;
+		root->right = left->right;
+		left->left = root;
+		left->right = right;
+		return left;
+	} else {
+		root->left = right->left;
+		root->right = right->right;
+		right->right = root;
+		right->left = left;
+		return right;
+	}     }
+72. 比较简单，就是一个Price list，包含["APPLE", "123", "GOOGLE", "300", "IBM", "99"]这种，然后又来了一个Profolio list，["APPLE", "IBM"]，问判断Profolio list中的公司名是否再Price list中，并且输出一个list，包含价格以及是否存在的信息，形式为["APPLE", "123", "Yes", "GOOGLE", "300", "No", "IBM", "99", "Yes"]。
+73. UTF-8 decoding 
+UTF-8是一种变长字节编码方式。对于某一个字符的UTF-8编码，如果只有一个字节则其最高二进制位为0；如果是多字节，其第一个字节从最高位开始，连续的二进制位值为1的个数决定了其编码的位数，其余各字节均以10开头。UTF-8最多可用到6个字节。  如表：  1字节 0xxxxxxx  2字节 110xxxxx 10xxxxxx  3字节 1110xxxx 10xxxxxx 10xxxxxx  4字节 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx  5字节 111110xx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx  6字节 1111110x 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx  因此UTF-8中可以用来表示字符编码的实际位数最多有31位，即上表中x所表示的位。除去那些控制位（每字节开头的10等），这些x表示的位与UNICODE编码是一一对应的，位高低顺序也相同。  实际将UNICODE转换为UTF-8编码时应先去除高位0，然后根据所剩编码的位数决定所需最小的UTF-8编码位数。  因此那些基本ASCII字符集中的字符（UNICODE兼容ASCII）只需要一个字节的UTF-8编码（7个二进制位）便可以表示。 
+74.写一个类实现 linkedlist和nodes 然后要求重载运算符＝＝判断两个list的值是不是都对应相等
+75. 给定一个10个无序的字母，如何在一个dictionary找到包含10个字母中最多的单词。我想到的是，扫一遍dictonary, 看那个单词包含最多所指定的10个字母，她说有别的方法吗？我说把字典存在hash set, 然后10个字母的任意数量的任意combination hash下，从10的combination hash起，依次减少知道找到那个单词。最后又讨论了下排序有帮助么？(按照包含字母个数排序？)(字典编码为int, 每一位对应一个字母，long long如果分大小写的话, 以此做key建立hashmap, 然后k从10到1，依次获得10中取k的任意combination转为key查询)
+Q77.有一个数组，数组里元素先递增再递减再递增，然后给一个element， 返回该element的index或者-1， input : [2,3,5,7,-3,-2,-1，4]  element:-3  返回4
+Q78.给一个list的air tickets, 每个ticket有出发地和目的地，给这个tickets排序，使得能够完成一次round trip 
+Q79.给定各种语言的字典, 给一篇文章, 给定一个function getWord可以取得文章中的下一个字(从头开始, 类似iterator的getNext) 问你要怎么样check他是哪一种语言(ex, English, French 等等).给了一个一直把字放到各个字典里比对然后对每个字典投票的算法, 面试官问有没有不用把整个字典都预读到memory的解法, 完全没头绪...(对文章hashMap记录各词个数，分小字典投票，对应语种字典票数相加)
+80.有一个函数，如果这个函数一分钟之内被call了大于5次，输入一个warning~~；写一个函数，10秒内如果该函数被调用了至少十次就返回true，否则false 假如已经有了timestamp的函数，那么就是建一个长度为5的queue，里面存每次call的时间，每call一次，把queue的第一次call的时间相比较，看是不是在60秒以内，是的话就输出warning。然后把queue top() pop出去，把最近call的push进去，就可以了~~还要注意初始时候queue小于5的处理~~ 
+时间boundary为T，次数为>K
+que.push(currTime)
+while (que.front() + T < currTime) que.pop();
+if(que.size() > k) "warning"
+T81.给定一个function, double getprice(double stock) ,然后 让写怎么利用给定的function来实现double getstock(double price)。 idea就是binary search. 写了代码
+Q82.一个数组作为输入，输出是给用户看的histogram，纵坐标表示以0 ~ k -1, k ~ 2k - 1如此划分的不同区间内的元素数。假设现在用户可以直接拖动一个slider来调整k的大小，试问如何优化这个操作的时间和空间。 一开始说每次用户给个新k值都暴力扫描原数组，答可以。问如何优化扫描速度。 然后说先排序数组，然后做N/k次二叉扫描，搜索数组里最小的大于等于k-1, 2k-1, 3k-1的数组的index，返回的值就是可以用来划分的index（让二叉搜索的失败返回值不是－1而是low指针就可以），然后histogram就是index1, index2-index1, index3-index2这样。问如何继续优化，假设最大数字不是很大。 于是想到counting sort里的那个辅助数组C，C[i]记录小于或者等于i的原数组的元素的数量。扫描一次原数组，然后不需要二叉搜索，直接读取C里面的k-1, 2k-1, 3k-1等等的值就可以了。问如何优化空间，假设最大数字很大。 于是想到用interval tree优化空间，不过牺牲了查询速度，这个部分讨论一下思路就结束了。
+【*****计算几何******】
+1.有很多很多的圆，找一个最小面积的大圆，正好可以覆盖这些圆。
+2.求出平面中多个圆的面积，给了各个圆的x,y坐标和半径r，圆和圆是可以重叠的，重叠部分面积不应该重复计算。【圆的那个题楼主当时脑洞大开，用得方法是找一个矩形使所有圆都在这个矩形中，然后向矩形中射击大量的paintball（对，就是这么跟面试官说的……）算出圆被击中的百分比，然后乘以矩形面积就是了】(容斥原理？)
+【===========brain teaser============】
+1. 100 light bubbles, could be switched to  on or off. The initial status is all off. The first round, switch every bubble, the second round, switch every two bubble, ......comes to the 100 round. Question: how to implement this process. Follow up: at the end, what bubbles are on.
+2. 有十个wizard，每个人头上戴一顶帽子，帽子颜色要么是黑要么是白，十个wizard身高各不相同，比较高的wizard可以看见所有比他矮的wizard的帽子颜色，但是自己不知道自己帽子的颜色。现在这十个人由高到低站成一排，每个人有一次机会说出一条信息且只能说出一条信息，比如可以说我前面的人的帽子的颜色，但是说出之后就不能说出我前面的前面的人的帽子颜色。如果wizard说出的信息是自己帽子的颜色，那么可以生还，否则被杀，要求设计一个方案使得这10个wizard中有尽可能多的人生还。
+3. 10*10*10方块，问表面涂上颜色的话，没有涂颜色的有多少个
+4.问立方体的对角线长度，然后说毛毛虫爬过去最短走多长。让解释给他听。
+5. 25匹马，每轮能跑5匹，怎样跑最少次数找到前三名。
+6. 一道是有一个洗手间，只有一间房子，要求设计一种规则。假设每个人都会严格遵守规则，问如何设计可以使得男女不会同时进入洗手间。我开始是采用3块牌子的方法，一个man一个woman一个empty。Empty谁都能进，但是把对应的性别挂起来，另一个性别不能进。最后一个出来的要把牌子换成empty，非常简单。追问：如果每个人上厕所时间都是1分钟。这时先来了个男的，之后每30秒来一对couple，会怎么样？如何解决？其实问题就在于女的永远上不了厕所，会被憋死。然后我说挂了计时器，到了3分钟不能再进，然后最后一个人出来把empty挂起来，再把计时器调为0，对方表示满意。
+7.  如果1到100号人坐一圈，从1开始把自己后面的人推出去，知道剩最后一个人，问是多少号，规律是什么。答案其实不重要，其实是要寻找其中的规律，写出如果是n个人会剩谁的通式。算法用cycle single linkedlist实现[2^k <= n < 2^(k+1): (n - 2^k) * 2 + 1]
+8.问了一个非常不典型的几何体，给你圆柱体，正方体和球体，有三种操作intersection, union, difference(和集合论的一样)，比如intersection就是两个几何体的体积相交部分。然后他给了我一个实体的模型，一个里面被挖空的正方体，里面有一个可以自由运动的球体(但不能走出这个正方体)，正方体六个面都有圆形的孔，问我通过上述什么操作和用什么几何体能得到这个模型。
+9. 4 people cross a bridge, each of them takes 1 min, 2 mins, 5 mins, 10 mins to cross bridge respectively, only one flash, how to use 17 mins to send all of them over to the other side. 然后问有没有一个具体的策略来解决这个问题，如果数值变了。
+10. 就是给你N（假设偶数吧）支球队，要两两之间各打一场比赛，一共有N-1轮，每轮N／2场，要你给出一个schedule，只要给出一个能work的方案就行了，先不管效率问题
+11.三角形三个顶点有三个蚂蚁，等概率沿两个边爬。碰撞概率。
+12.一个大矩阵，告诉两个点，然后找出这两个点之间直线上所有的点. 就是给你一个m*n的矩阵，然后从对角线上连线，看你能穿过多少个方格，应该是m+n-GCD(m,n)， GCD指的是最大公约数

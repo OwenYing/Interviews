@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    android:weightSum="1"
+    android:background="@drawable/bg6">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ip"
+        android:text="123.57.35.110" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="connect"
+        android:id="@+id/connect"
+        android:background="@drawable/button_press" />
+
+    <Button
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:text="disconnect"
+        android:id="@+id/disconnectButton"
+        android:background="@drawable/button_press" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit"
+        android:layout_weight="0.08" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="send"
+        android:id="@+id/send"
+        android:background="@drawable/button_press" />
+
+    <TextView
+        android:layout_width="303dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/text"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.86"
+        android:textColor="@color/abc_primary_text_material_light" />
+</LinearLayout>
