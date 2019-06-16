@@ -32,7 +32,7 @@ public final class Hero {
     private final Weapon weapon;
 
     //1. Instead of accepting lots of parameters, here it only accept Builder
-    private Hero(Builder builder) {
+    public Hero(Builder builder) {
         this.profession = builder.profession;
         this.name = builder.name;
         this.hairColor = builder.hairColor;
