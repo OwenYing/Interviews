@@ -10,7 +10,7 @@ public class Directory {
 4. Facade -- provide easier surface of operating underneath complex operation
 5. Adapter -- for interface1 to fit interface2 ( implements interface2, while having interface1's instance)
 6. Decorator -- Wrap the original one with armor ; both implements the same interface
-
+7. Bridge -- Decouple an abstraction from its implementation so that the two can vary independently
 
 
 
