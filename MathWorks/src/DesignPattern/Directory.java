@@ -12,7 +12,7 @@ public class Directory {
 6. Decorator -- Wrap the original one with armor ; both implements the same interface
 7. Bridge -- Decouple an abstraction from its implementation so that the two can vary independently
 8. Chain of Responsibility -- Pass the request along a linked list, if this node can handle it, then handle it. Or not, pass to the next node.
-
+9. Composite -- Composite lets clients treat individual objects and compositions of objects uniformly.
 
 
  */
