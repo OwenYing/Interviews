@@ -14,5 +14,6 @@ public class Directory {
 8. Chain of Responsibility -- Pass the request along a linked list, if this node can handle it, then handle it. Or not, pass to the next node.
 9. Composite -- Composite lets clients treat individual objects and compositions of objects uniformly.
 10. Flyweight -- For multiple applications, share the same objects by using Map<>
+11. Prototype -- It allows you to create copy of an existing object and modify it to your needs, instead of going through of creating an object from scratch and setting up.
 
  */
