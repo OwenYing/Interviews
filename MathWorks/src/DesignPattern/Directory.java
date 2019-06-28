@@ -15,5 +15,5 @@ public class Directory {
 9. Composite -- Composite lets clients treat individual objects and compositions of objects uniformly.
 10. Flyweight -- For multiple applications, share the same objects by using Map<>
 11. Prototype -- It allows you to create copy of an existing object and modify it to your needs, instead of going through of creating an object from scratch and setting up.
-
+12. Proxy -- Use the same class to provide access of that class
  */
